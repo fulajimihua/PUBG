@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>支付成功</title>
+</head>
+<body>
+    <h3>{{ content }}</h3>
+    <a href="/pubg/index/">点击跳转，或3秒后自动跳转首页</a>
+</body>
+    {% load static %}
+    <script src="{% static 'js/jquery.js' %}"></script>
+    <script>
+        $(function () {
+            setTimeout(function () {
+            location.href = "/pubg/index/"
+        },3000)
+        })
+    </script>
+</html>

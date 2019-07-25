@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<meta name="Keywords" content="我的购物车-1药网（原1号药网）_中国网上药店领导者|网上药房" />
+		<meta name="Description" content="我的购物车-1药网（原1号药网）_中国网上药店领导者|网上药房" />
+		<title>我的购物车-1药网（原1号药网）_中国网上药店领导者|网上药房_1药网（原1号药网）</title>
+        {% load static %}
+		<link rel="shortcut icon" href="{% static 'img/title.ico' %}" />
+		<link rel="stylesheet" type="text/css" href="{% static 'css/shoppingcart.css' %}" />
+{#		<link rel="stylesheet" type="text/css" href="{% static 'css/list.css' %}" />#}
+		<script src="{% static 'js/jquery.js' %}" type="text/javascript" charset="utf-8"></script>
+		<script src="{% static 'js/jquery.cookie.js' %}" type="text/javascript" charset="utf-8"></script>
+		<script src="{% static 'js/shoppingcart.js' %}" type="text/javascript" charset="utf-8"></script>
+	</head>
+
+	<body>
+		<div class="cartbody">
+			<div class="site-nav">
+				<div class="site-nav-bd">
+					<ul class="site-nav-bd-l">
+						<li class="menu">
+							<div class="menu-hd">
+								<a class="favorite"><em></em><span>收藏本站</span></a>
+							</div>
+						</li>
+						<li class="site-nav-pipe">|</li>
+						<li class="menu">
+							<div class="menu-hd">
+								<a class="tell"><em></em><span>手机版</span></a>
+							</div>
+						</li>
+						<li class="menu">
+							<div class="menu-hd province-box">
+								<span>送货至</span>
+								<a class="province-name"><b>广东</b></a>
+							</div>
+						</li>
+					</ul>
+					<ul class="site-nav-bd-r">
+
+                        <li class="menu">
+                            <div class="menu-hd">
+                                {% if username %}
+                                    <a href="#" class="header-1-1" style="color: #5E5E5E">欢迎您{{ username }}</a>
+                                    <span class="site-nav-pipe">|</span>
+                                    <a href="{% url 'App:logout' %}" class="header-1-2">注销</a>
+                                {% else %}
+                                    <a href="{% url 'App:login' %}" class="header-1-1">请登录</a>&nbsp;
+                                    <li class="site-nav-pipe">|</li>
+                                    <a href="{% url 'App:register' %}" class="header-1-2">注册</a>
+                                {% endif %}
+                            </div>
+                        </li>
+
+						<li class="site-nav-pipe">|</li>
+						<li class="menu">
+							<div class="menu-hd">
+								<a href=""/pubg/orders/"">我的订单</a>
+							</div>
+						</li>
+						<li class="site-nav-pipe">|</li>
+						<li class="menu">
+							<div class="menu-hd">
+								<a>我的1药网</a>
+							</div>
+						</li>
+						<li class="site-nav-pipe">|</li>
+						<li class="menu">
+							<div class="menu-hd">
+								<a>帮助中心</a>
+							</div>
+						</li>
+						<li class="site-nav-pipe">|</li>
+						<li class="menu">
+							<div class="menu-hd">
+								<a>在线客服</a>
+							</div>
+						</li>
+					</ul>
+				</div>
+			</div>
+			<div class="c-head">
+				<h1 id="logo">
+					<a href="/pubg/index/" class="logo">壹号药网<span class="i"></span></a>
+				</h1>
+			</div>
+			<div class="c-content">
+				<div class="flow-steps">
+					<ol class="num5">
+						<li ><span>1. 我的购物车</span></li>
+						<li class="current"><span>2. 生成订单</span></li>
+						<li class="last"><span>3. 查看订单</span></li>
+					</ol>
+				</div>
+				<div class="cart-first-bar">
+					<ul>
+						<li class="mycarttitle">购物车信息</li>
+					</ul>
+				</div>
+                <div class="recive" style="margin: 0px auto;border-top: 2px solid #a5a5a5;">
+                    <p style="height: 25px; line-height: 25px"><b>订单号：</b>提交后生成</p>
+                    <p style="height: 25px; line-height: 25px"><b>收货人：</b>张三</p>
+                    <p style="height: 25px; line-height: 25px"><b>收货地址：</b>广东省 深圳市 宝安区 西部硅谷 前锋教育605</p>
+                    <p style="height: 25px; line-height: 25px"><b>收货人电话：</b>110</p>
+                </div>
+				<div class="empty-box" style="position: relative;">
+					<ul id="list">
+                        <table width="980">
+                            <tr>
+                                <td align="left"><b>选择</b></td>
+                                <td><b>商品图片</b></td>
+                                <td><b>商品名称</b></td>
+                                <td><b>商品数量</b></td>
+                                <td><b>商品单价</b></td>
+                                <td><b>操作</b></td>
+                                <td><b>商品总价</b></td>
+                            </tr>
+                            {% for cart in carts %}
+                                <tr>
+                                <td width="80px" align="left">
+                                    <input class="cart_checkbox" type="checkbox" cartid="{{ cart.id }}"
+                                    {% if cart.is_select %}
+                                          checked is_select=1>
+                                    {% else %}
+                                         is_select=0>
+                                    {% endif %}
+                                </td>
+                                <td width="230px"><a href="/pubg/goods/{{ cart.goods.id }}/"><img src="{% static cart.goods.small_img %}" ></a></td>
+                                <td width="180px"><a href="/pubg/goods/{{ cart.goods.id }}/">{{ cart.goods.name }}</a></td>
+                                <td width="150px"><button class="btn_reduce" cartid="{{ cart.id }}">-</button> <span style="display: inline">{{ cart.num }}</span> <button class="btn_add" cartid={{ cart.id }}>+</button></td>
+                                <td width="180px">￥{{ cart.goods.price }}</td>
+                                <td width="100px"><a href="#" class="delete" cartid="{{ cart.id }}">删除</a></td>
+                                <td class="price2" width="90px">￥{{cart.all_price}}</td>
+                            </tr>
+                            {% endfor %}
+                            <tr>
+                                <td colspan="7"><hr></td>
+                            </tr>
+                            <tr height="15px"></tr>
+                            <tr>
+                                <td align="left" style="line-height: 100%"><input type="checkbox" id="all_select" ><b>全选</b></td>
+                                <td colspan="3"></td>
+                                <td style="font-size: 20px; font-family: '微软雅黑"><b>总价:<span id="total_price" style="display: inline; font-size: 25px; color:red" ></span></b></td>
+                                <td colspan="2"  ><button class='add-cart-btn2'>立即购买</button></td>
+                            </tr>
+                        </table>
+                    </ul>
+				</div>
+			</div>
+		</div>
+		<div id="simplefooter">
+			<p>
+				<a href="#">关于1药网 |</a>
+				<a href="#">互联网药品交易资格证 |</a>
+				<a href="#">互联网药品信息服务资格证 |</a>
+			</p>
+			<p>
+				连锁营业执照| 保健食品卫生许可证| 医疗器械许可证| 食品流通许可证| GSP证书| 粤ICP备12015869号
+			</p>
+			<p>Copyright© 1药网 2010-2015， All Rights Reserved</p>
+		</div>
+	</body>
+
+</html>

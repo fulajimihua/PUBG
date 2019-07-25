@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>注册1药网</title>
+		<meta name="keywords" content="1药网,网上药房,网上药店,网上买药, 合法网上药房" />
+		<meta name="description" content="1药网（111.com.cn），中国网上药店领导者，于2010年7月正式上线，是中国第一批获得国家食品药品监督管理局颁发的《互联网药品交易许可证》（许可证号：粤C20100001）的合法网上药店。" />
+        {% load static %}
+		<link rel="shortcut icon" href="{% static 'img/title.ico' %}" />
+		<link rel="stylesheet" type="text/css" href="{% static 'css/register.css' %}" />
+        <link rel="stylesheet" href="{% static 'css/bootstrap.css' %}">
+		<script src="{% static 'js/jquery.js' %}" type="text/javascript" charset="utf-8"></script>
+{#		<script src="{% static 'js/jquery.cookie.js' %}" type="text/javascript" charset="utf-8"></script>#}
+		<script src="{% static 'js/register.js' %}" type="text/javascript" charset="utf-8"></script>
+		<script src="{% static 'js/Validform_v4.0.js' %}" type="text/javascript" charset="utf-8"></script>
+        <script>
+        $.ajaxSetup({
+            data:{csrfmiddlewaretoken:'{{ csrf_token }}'}
+        })
+        </script>
+	</head>
+
+	<body>
+		<div class="head">
+			<a href="index.html" target="_blank"><img src="{% static 'img/resigter_logo.png' %}" /></a>
+		</div>
+		<div class="register">
+			<a href="#" class="bg-link">&nbsp;</a>
+			<h2 class="title">
+			<span>我已经注册，现在就<a href="login.html">登录</a></span>
+			Hi，欢迎注册！
+			</h2>
+			<form class="reg_form" action="/pubg/register/" method="post">
+                {% csrf_token %}
+				<div class="reg-row">
+                    <input type="text" id="user" class=" form-control user-name" name="username" placeholder="用户名" >
+                    <span id="usernamevalid" style="color: red; display: none">用户名已存在</span>
+                    <span id="usernameok" style="color: green; display: none" >用户名未被占用</span>
+                </div>
+				<div class="reg-row">
+					<input type="password" name="pwd1" datatype="s6-15" placeholder="登录密码" class="form-control u-ps" id="password" oncopy="return false" oncut="return false" onpaste="return false" maxlength="20"/>
+					<span id="password-tip" style="display: none;" class="password-tip">
+						6-20位字符，建议由字母，数字和符号两种以上组合
+					</span>
+					<span id="password-error" style="display: none;" class="password-error">
+						密码不能为空
+					</span>
+					<i class="i-pswture"></i>
+				</div>
+				<div class="reg-row psheight">
+					<input type="password" name="pwd2" datatype="*" recheck="user.password" id="password2" placeholder="确认密码" class="form-control u-ps2" oncopy="return false" oncut="return false" onpaste="return false" maxlength="20" />
+					<i class="i-ture"></i>
+					<span id="password2-tip" style="display: none;" class="password2-tip">
+						请再次输入登录密码
+					</span>
+                    <i>{{ pwderr }}</i>
+					<span id="password2-error" class="password2-error">
+						确认密码不能为空
+					</span>
+				</div>
+                <div class="reg-row user">
+					<input type="text" id="phone_num" name="phone_num" datatype="m" autocomplete="off" placeholder="手机号" maxlength="100" class=" form-control user-name" />
+                    <span class="error">
+						手机号格式不正确
+					</span>
+                    <input type="button" id="get_vc"  value="获取验证码" style="border-radius:15%;  height: 40px; width: 80px; background-color: #5bc0de">
+                    {% if  vcerr %}
+                    <span id="vc" style="line-height: 40px; color: red; font-size: 19px">{{ vcerr }}
+                    {% else %}
+                    <span id="vc" style="line-height: 40px; color: green; font-size: 19px">
+                    {% endif %}
+                    </span>
+                    <input type="text" id="verifycode" name="verifycode"  placeholder="请输入验证码" class="form-control1"  />
+					<i class="i-empty">不能为空</i>
+					<i class="i-ture"></i>
+
+				</div>
+				<div class="reg-row">
+					<label class="checkbox">
+						<input type="checkbox" checked="checked" id="xyCheckBox" value="1" name="confirm" />
+						<span class="two-week">
+							我已阅读并同意<a onclick="window.open('http://www.111.com.cn/cms/view.do?topicId=22270','', 'width=600,height=600,scrollbars=1,resizable=yes')" class="blue-link">《1药网服务协议》</a>
+						</span>
+						<span class="error">
+							请勾选1药网服务协议
+						</span>
+					</label>
+					<button type="submit" class="btn btn-primary" id="regsiterButton">立即注册</button>
+				</div>
+				<div class="reg-row hz-login">
+					<p>使用合作伙伴账号登录：</p>
+					<a class="first a-yhd">1号店</a>
+					<a class="a-zfb">支付宝</a>
+					<a class="a-qq">QQ</a>
+					<a class="a-sina">新浪微博</a>
+					<a class="a-wlt">万里通</a>
+					<a class="last a-wy">网易</a>
+				</div>
+			</form>
+		</div>
+		<div id="simplefooter">
+			<p>
+				<a href="#">关于1药网 |</a>
+				<a href="#">互联网药品交易资格证 |</a>
+				<a href="#">互联网药品信息服务资格证 |</a>
+			</p>
+			<p>
+				连锁营业执照| 保健食品卫生许可证| 医疗器械许可证| 食品流通许可证| GSP证书| 粤ICP备12015869号
+			</p>
+			<p>Copyright© 1药网 2010-2015， All Rights Reserved</p>
+		</div>
+	</body>
+
+</html>
